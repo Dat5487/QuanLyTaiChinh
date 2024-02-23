@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Xác nhận xóa mục học phí{% endblock %}
+{% block content %}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">Xác nhận xóa mục học phí</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <dl class="dl-horizontal">
+                <dt>
+                    Hệ đào tạo
+                </dt>
+                <dd>
+                    {{ mucHocPhi.heDaoTao }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Năm học
+                </dt>
+                <dd>
+                    {{ mucHocPhi.namHoc }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Tên ngành
+                </dt>
+                <dd>
+                    {{ mucHocPhi.tenNganh }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Khoa
+                </dt>
+                <dd>
+                    {{ mucHocPhi.khoa }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Lớp
+                </dt>
+                <dd>
+                    {{ mucHocPhi.lop }}
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    Học kỳ
+                </dt>
+                <dd>
+                    {% if mucHocPhi.họcKy == True %}
+                        <p>Học kỳ 1</p>
+                    {% else %}
+                        <p>Học kỳ 2</p>
+                    {% endif %}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Ngành 2
+                </dt>
+                <dd>
+                    {% if mucHocPhi.isNganhHai == True %}
+                        <p>Có</p>
+                    {% else %}
+                        <p>Không</p>
+                    {% endif %}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Học lại
+                </dt>
+                <dd>
+                    {% if mucHocPhi.isHocLai == True %}
+                        <p>Có</p>
+                    {% else %}
+                        <p>Không</p>
+                    {% endif %}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Miễn giảm
+                </dt>
+                <dd>
+                    {% if mucHocPhi.isMienGiam == True %}
+                        <p>Có</p>
+                    {% else %}
+                        <p>Không</p>
+                    {% endif %}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Tính chất
+                </dt>
+                <dd>
+                    {{ mucHocPhi.tinhChat }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Hệ số
+                </dt>
+                <dd>
+                    {{ mucHocPhi.heSo }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Số tiền
+                </dt>
+                <dd>
+                    {{ soTien }}
+                </dd>
+            </dl>
+            <div class="form-group">
+                <div class="col-md-offset-2 ">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Xóa" class="btn btn-primary" />
+                        <a class="btn btn-danger" href="##" onClick="history.go(-1); return false;">Hủy</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>{% endblock %}

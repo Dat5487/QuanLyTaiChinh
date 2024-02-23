@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Thêm khoản thu học phí{% endblock %}
+{% block content %}
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+      <h4 class="m-0 font-weight-bold text-primary">Thêm khoản thu học phí</h4>
+  </div>
+  <div class="card-body">
+      <form method="POST" action="{% url 'newKhoanThuHocPhi' lopId %}">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-6">
+              <input class="form-control" id="idSV" name="sinhVien" hidden>
+              <div class="form-group mt-2">
+                <label class="fw-bold">Mã sinh viên</label>
+                <input class="form-control" id="maSV" oninput="getSVInfo()" required>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Họ tên : </label>
+                <label id="hoTen"></label>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Ngày sinh : </label>
+                <label id="ngaySinh"></label>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Quê quán : </label>
+                <label id="queQuan"></label>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Mức học phí năm</label>
+                <select class="form-control combobox" name="mucHocPhi" id="mucHocPhi"  onchange="getMucHocPhiInfo()" required>
+                  <option value=""></option>
+                  {% for value in listMucHocPhi %}
+                      <option value="{{ value.id }}">{{ value.namHoc}} - 
+                        {% if value.hocKy == True %}
+                          Học kỳ 1
+                        {% else %}
+                          Học kỳ 2
+                        {% endif %}
+                      </option>
+                  {% endfor %}
+              </select>
+              </div>
+              <!-- Id Tàng hình -->
+              <div class="form-group mt-2">
+                  <input class="form-control" name="mucHocPhi" value="{{ value.id }}" id="id" hidden>
+              </div>
+              
+              <div class="form-group mt-2">
+                  <label class="fw-bold  ">Hệ đào tạo : </label>
+                  <label id="heDaoTao"></label>
+              </div>
+              <div class="form-group mt-2">
+                  <label class="fw-bold  ">Tên ngành : </label>
+                  <label id="tenNganh"></label>
+              </div>
+              <div class="form-group mt-2">
+                  <label class="fw-bold  ">Khoa : </label>
+                  <label id="khoa"></label>
+              </div>
+              <div class="form-group mt-2">
+                  <label class="fw-bold  ">Lớp : </label>
+                  <label id="lop"></label>
+              </div>
+              <div class="form-group mt-2">
+                  <label class="fw-bold  ">Số tiền : </label>
+                  <label id="soTien"></label>
+              </div>
+            </div>
+          </div>          
+          <hr/>
+          <h5>Thông tin nội dung</h5>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Hạn nộp</label><br/>
+                <input type="date" class="form-control" id="date" name="hanNop">
+            </div>
+            <div class="form-group mt-2">
+              <label class="fw-bold  ">Số tiền miễn giảm</label>
+              <input class="form-control" type="text" placeholder="0" name="soTienMienGiam" id="mienGiam" oninput="updateSoTien(event)" data-type="currency" >
+            </div>
+            <div class="form-group mt-2">
+              <label class="fw-bold  ">Mã số thuế</label>
+              <input class="form-control" name="maSoThue">
+            </div>
+            <div class="form-group mt-2">
+              <label class="fw-bold  ">Tổng số tiền</label>
+              <input class="form-control" type="text" name="soTien" id="tongSoTien"  data-type="currency" min="0">
+            </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Nội dung thu</label>
+                <textarea class="form-control" name="noiDungThu" rows="4" ></textarea>
+              </div>
+              <div class="form-group mt-2">
+                  <label class="fw-bold  ">Ghi chú</label>
+                  <textarea class="form-control" name="ghiChu" rows="4" ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <br/>
+          <button type="submit" class="btn btn-primary mt-3">Xác nhận</button>
+          <a class="btn btn-danger mt-3" href="##" onClick="history.go(-1); return false;">Hủy</a>          
+      </form>
+  </div>
+</div>
+<script>
+  $("input[data-type='currency']").on({
+      keyup: function() {
+      formatCurrency($(this));
+      },
+      blur: function() { 
+      formatCurrency($(this), "blur");
+      }
+  });
+  var inputMienGiam = document.getElementById('mienGiam');
+  inputMienGiam.addEventListener("blur", function() {
+    // Check if the input value is empty or contains only whitespace
+    if (inputMienGiam.value.trim() === "") {
+      inputMienGiam.value = "0"; // Set the value to 0
+    }
+  });
+
+
+  function formatNumber(n) {
+  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  }
+
+
+  function formatCurrency(input, blur) {
+  var input_val = input.val();
+  if (input_val === "") { return; }
+  var original_len = input_val.length;
+  var caret_pos = input.prop("selectionStart");
+  if (input_val.indexOf(".") >= 0) {
+      var decimal_pos = input_val.indexOf(".");
+      var left_side = input_val.substring(0, decimal_pos);
+      var right_side = input_val.substring(decimal_pos);
+      left_side = formatNumber(left_side);
+      right_side = formatNumber(right_side);
+      if (blur === "blur") {
+      right_side += "00";
+      }
+      right_side = right_side.substring(0, 2);
+      input_val = left_side + "." + right_side;
+  } else {
+      input_val = formatNumber(input_val);
+      input_val = input_val ;
+  }
+  input.val(input_val);
+  var updated_len = input_val.length;
+  caret_pos = updated_len - original_len + caret_pos;
+  input[0].setSelectionRange(caret_pos, caret_pos);
+  }
+  function getSVInfo() {
+        var inputIdSV = document.getElementById('idSV');
+        var inputSV = document.getElementById('maSV');
+        var labelHoten = document.getElementById('hoTen');
+        var labelNgaySinh = document.getElementById('ngaySinh');
+        var labelQueQuan = document.getElementById('queQuan');
+        var maSV = inputSV.value;
+        inputIdSV.value = ""
+        labelHoten.textContent = ""
+        labelQueQuan.textContent = ""
+        labelNgaySinh.textContent = ""
+        {% for value in listSinhVien %}
+          if ("{{ value.maSV }}" == maSV) {
+            inputIdSV.value = "{{ value.id }}"
+            labelHoten.textContent = "{{ value.hoTen }}"
+            labelQueQuan.textContent = "{{ value.queQuan }}"
+            labelNgaySinh.textContent = "{{ value.ngaySinh }}"
+          }
+      {% endfor %}
+        }
+  function getMucHocPhiInfo(event) {
+    var cmbMucHocPhi = document.getElementById('mucHocPhi');
+    var inputId = document.getElementById('id');
+    var labelHeDaoTao = document.getElementById('heDaoTao');
+    var labelTenNganh = document.getElementById('tenNganh');
+    var labelKhoa = document.getElementById('khoa');
+    var labelLop = document.getElementById('lop');
+    var labelSoTien = document.getElementById('soTien');
+    var mucHocPhi = cmbMucHocPhi.value;
+    inputId.value = "";
+    labelHeDaoTao.textContent = "";
+    labelTenNganh.textContent = "";
+    labelKhoa.textContent = "";
+    labelLop.textContent = "";
+    labelSoTien.textContent = "";
+    {% for value in listMucHocPhi %}
+        if ("{{ value.id }}" == mucHocPhi) {
+            inputId.value = "{{ value.id }}"
+            labelHeDaoTao.textContent = "{{ value.heDaoTao }}"
+            labelTenNganh.textContent = "{{ value.tenNganh }}"
+            labelKhoa.textContent = "{{ value.khoa }}"
+            labelLop.textContent = "{{ value.lop }}"
+            labelSoTien.textContent = parseInt("{{ value.soTien }}").toLocaleString();
+        }
+    {% endfor %}
+    updateSoTien();
+    }
+    
+    function updateSoTien(event) {
+        var inputTongSoTien = document.getElementById('tongSoTien');
+        var inputMienGiam = document.getElementById('mienGiam');
+        var labelSoTien = document.getElementById('soTien');
+        var tongTien = labelSoTien.textContent.replace(/,/g, "") - inputMienGiam.value.replace(/,/g, "");
+        inputTongSoTien.value = parseInt(tongTien).toLocaleString();
+        }
+</script>
+
+{% endblock %}

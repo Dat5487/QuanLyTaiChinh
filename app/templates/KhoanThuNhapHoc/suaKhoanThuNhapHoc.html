@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanizelib %}
+{% block title %}Sửa khoản thu nhập học{% endblock %}
+{% block content %}
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+      <h4 class="m-0 font-weight-bold text-primary">Sửa khoản thu nhập học</h4>
+  </div>
+  <div class="card-body">
+        <form method="POST" action="{% url 'suaKhoanThuNhapHoc' khoanThuNhapHoc.id %}">
+            {% csrf_token %}
+            <div class="form-group mt-2">
+                <label class="fw-bold  ">Khóa nhập học</label>
+                <select class="form-control combobox" name="khoaHoc">
+                    {% for value in cacKhoaHoc %}
+                        {% if value == khoanThuNhapHoc.khoaHoc %}
+                        <option value="{{ value.id }}" selected>{{ value.namKhoaHoc }}</option>
+                        {% else %}
+                        <option value="{{ value.id }}">{{ value.namKhoaHoc }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Tên ngành</label>
+                <select class="form-control combobox" name="nganhDaoTao" required>
+                  <option value=""></option>
+                  {% for value in cacTenNganh %}
+                    {% if value == khoanThuNhapHoc.nganhDaoTao %}
+                        <option value="{{ value.id }}" selected>{{ value.tenNganhDaoTao }}</option>
+                    {% else %}
+                        <option value="{{ value.id }}">{{ value.tenNganhDaoTao }}</option>
+                    {% endif %}
+                  {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Khoản thu</label>
+                <select class="form-control combobox" name="khoanThu" required>
+                  <option value=""></option>
+                  {% for value in cacKhoanThu %}
+                    {% if value == khoanThuNhapHoc.khoanThu %}
+                        <option value="{{ value.id }}" selected>{{ value.tenKhoan }}</option>
+                    {% else %}
+                        <option value="{{ value.id }}">{{ value.tenKhoan }}</option>
+                    {% endif %}
+                  {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Đợt nhập học</label>
+                <input type="number" value="{{ khoanThuNhapHoc.dotNhapHoc }}" class="form-control" name="dotNhapHoc" min="0" step="1" required>
+              </div>
+              <div class="form-group mt-2">
+                <label class="fw-bold  ">Số tiền</label>
+                <input type="number" value="{{ khoanThuNhapHoc.soTien }}" class="form-control" name="soTien" id="soTien" min="0" required>
+              </div>
+              <button type="submit" class="btn btn-primary mt-3">Xác nhận</button>
+              <a class="btn btn-danger mt-3" href="##" onClick="history.go(-1); return false;">Hủy</a>        </form>
+    </div>
+</div>
+<!-- <script>
+    function formatCurrency() {
+      // Get the input element
+      var input = document.getElementById("soTien");
+
+      // Remove non-digit characters from the input value
+      var value = input.value.replace(/[^0-9.]/g, '');
+
+      // Format the value as currency
+      var formattedValue = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(value);
+
+      // Update the input value with the formatted currency
+      input.value = formattedValue;
+    }
+  </script> -->
+{% endblock %}

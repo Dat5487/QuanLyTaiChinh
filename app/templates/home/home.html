@@ -1,0 +1,95 @@
+<!-- child.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Trường Đại học Hạ Long{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="col-4">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tỉ lệ hoàn thành của các khoản học phí</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4">
+                    <div>
+                        <canvas id="myChart"></canvas>
+                      </div>
+                </div>
+                <hr>
+                Styling for the donut chart can be found in the
+                <code>/js/demo/chart-pie-demo.js</code> file.
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-4">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tỉ lệ số tiền sinh viên đã nộp</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4">
+                    <div>
+                        <canvas id="chart2"></canvas>
+                      </div>
+                </div>
+                <hr>
+                Styling for the donut chart can be found in the
+                <code>/js/demo/chart-pie-demo.js</code> file.
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Get the canvas element
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Define the chart data
+    var data = {
+      labels: ['Chưa hoàn thành', 'Đã hoàn thành'],
+      datasets: [{
+        data: ["{{ soLuongChuaNop }}", "{{ soLuongDaNop }}"],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+        ]
+      }]
+    };
+
+    // Create the pie chart
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: data
+    });
+  </script>
+  <script>
+    // Get the canvas element
+    var ctx = document.getElementById('chart2').getContext('2d');
+
+    // Define the chart data
+    var data = {
+      labels: ['Chưa nộp', 'Đã nộp'],
+      datasets: [{
+        data: ["{{ soTienChuaNop }}", "{{ soTienDaNop }}"],
+        backgroundColor: [
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)'
+        ]
+      }]
+    };
+
+    // Create the pie chart
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: data
+    });
+  </script>
+{% endblock %}

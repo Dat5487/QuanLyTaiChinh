@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Xóa khoản thu nhập học{% endblock %}
+{% block content %}
+
+
+<div class="card shadow mb-4 ">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">Xác nhận xóa khoản thu nhập học</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <dl class="dl-horizontal">
+                <dt>
+                    Đợt nhập học
+                </dt>
+                <dd>
+                    {{ khoanThuNhapHoc.khoaHoc.namKhoaHoc }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Tên ngành
+                </dt>
+                <dd>
+                    {{ khoanThuNhapHoc.nganhDaoTao.tenNganhDaoTao }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Khoản thu
+                </dt>
+                <dd>
+                    {{ khoanThuNhapHoc.khoanThu.tenKhoan }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Đợt nhập học
+                </dt>
+                <dd>
+                    {{ khoanThuNhapHoc.dotNhapHoc }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Số tiền
+                </dt>
+                <dd>
+                    {{ khoanThuNhapHoc.soTien }}
+                </dd>
+            </dl>
+            <div class="form-group">
+                <div class="col-md-offset-2 ">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Xóa" class="btn btn-primary" />
+                        <a class="btn btn-danger" href="##" onClick="history.go(-1); return false;">Hủy</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Xem khoản thu học phí{% endblock %}
+{% block content %}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h4 class="m-0 font-weight-bold text-primary">Xem khoản thu học phí</h4>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <dl class="dl-horizontal">
+                <dt>
+                    Mã sinh viên
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.sinhVien.maSV }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Họ tên
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.sinhVien.hoTen }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Ngày sinh
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.sinhVien.ngaySinh }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Quê quán
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.sinhVien.queQuan }}
+                </dd>
+            </dl>
+            <hr/>
+            <dl class="dl-horizontal">
+                <dt>
+                    Mức học phí năm
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.mucHocPhi.namHoc }}
+                </dd>
+            </dl>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    Hệ đào tạo
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.mucHocPhi.heDaoTao }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Tên ngành
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.mucHocPhi.tenNganh }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Khoa
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.mucHocPhi.khoa }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Lớp
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.mucHocPhi.lop }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Số tiền
+                </dt>
+                <dd id="soTien">
+                    {{ khoanThuHocPhi.mucHocPhi.soTien }}
+                </dd>
+            </dl>
+            <hr/>
+            <dl class="dl-horizontal">
+                <dt>
+                    Hạn nộp
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.hanNop }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Số tiền miễn giảm
+                </dt>
+                <dd id="soTienMienGiam">
+                    {{ khoanThuHocPhi.soTienMienGiam }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Mã số thuế
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.maSoThue }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Nội dung thu
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.noiDungThu }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Ghi chú
+                </dt>
+                <dd>
+                    {{ khoanThuHocPhi.ghiChu }}
+                </dd>
+            </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    Tổng số tiền
+                </dt>
+                <dd id="tongSoTien">
+                    {{ khoanThuHocPhi.soTien }}
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        updateSoTien()
+});
+    function updateSoTien() {
+        let soTien = document.getElementById('soTien');
+        soTien.innerHTML = parseInt("{{ khoanThuHocPhi.mucHocPhi.soTien }}").toLocaleString();
+        let soTienMienGiam = document.getElementById('soTienMienGiam');
+        soTienMienGiam.innerHTML = parseInt("{{ khoanThuHocPhi.soTienMienGiam }}").toLocaleString();
+        let tongSoTien = document.getElementById('tongSoTien');
+        tongSoTien.innerHTML = parseInt("{{ khoanThuHocPhi.soTien }}").toLocaleString();
+    }
+</script>
+{% endblock %}

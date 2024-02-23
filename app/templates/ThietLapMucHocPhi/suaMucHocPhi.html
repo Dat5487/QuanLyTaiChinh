@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Sửa mức học phí{% endblock %}
+{% block content %}
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+      <h4 class="m-0 font-weight-bold text-primary">Sửa mức học phí</h4>
+  </div>
+  <div class="card-body">
+        <form method="POST" action="{% url 'suaMucHocPhi' mucHocPhi.id %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Hệ đào tạo</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/hedaotao.png' %}" alt="Image">
+                            </span>
+                          </div>
+                        <select class="form-control combobox" name="heDaoTao" id="heDaoTao" onchange="handleComboboxChange1()">
+                            {% for value in cacHeDaoTao %}
+                                {% if value.tenHeDaoTao == mucHocPhi.heDaoTao %}
+                                <option value="{{ value.tenHeDaoTao }}" selected>{{ value.tenHeDaoTao }}</option>
+                                {% else %}
+                                <option value="{{ value.tenHeDaoTao }}">{{ value.tenHeDaoTao }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Năm học</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/namhoc.png' %}" alt="Image">
+                            </span>
+                          </div>
+                        <select class="form-control combobox" name="namHoc" id="namHoc">
+                            {% for value in cacNamHoc %}
+                                {% if value.namHoc == mucHocPhi.namHoc %}
+                                <option value="{{ value.namHoc }}" selected>{{ value.namHoc }}</option>
+                                {% else %}
+                                <option value="{{ value.namHoc }}">{{ value.namHoc }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Khoa</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/khoa.png' %}" alt="Image">
+                            </span>
+                          </div>
+                        <select class="form-control combobox" name="khoa" id="khoa" onchange="handleComboboxChange1()">
+                            {% for value in cacKhoa %}
+                                {% if value.tenKhoa == mucHocPhi.khoa %}
+                                <option value="{{ value.tenKhoa }}" selected>{{ value.tenKhoa }}</option>
+                                {% else %}
+                                <option value="{{ value.tenKhoa }}">{{ value.tenKhoa }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Tên ngành</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/nganhdaotao.png' %}" alt="Image">
+                            </span>
+                          </div>
+                        <select class="form-control combobox" name="tenNganh" id="tenNganh" onchange="handleComboboxChange1()">
+                            {% for value in cacNganhDaoTao %}
+                                {% if value.tenNganhDaoTao == mucHocPhi.tenNganh %}
+                                <option value="{{ value.tenNganhDaoTao }}" selected>{{ value.tenNganhDaoTao }}</option>
+                                {% else %}
+                                <option value="{{ value.tenNganhDaoTao }}">{{ value.tenNganhDaoTao }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+        
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Lớp</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/lop.png' %}" alt="Image">
+                            </span>
+                          </div>
+                        <select class="form-control combobox" name="lop" id="lop"">
+                            {% for value in cacLop %}
+                            {% if value.lop == mucHocPhi.lop %}
+                            <option value="{{ value.lop }}" selected>{{ value.lop }}</option>
+                            {% else %}
+                            <option value="{{ value.lop }}">{{ value.lop }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Hệ số</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/heso.png' %}" alt="Image">
+                            </span>
+                          </div>
+                          <input type="number" class="form-control" name="heSo" min="0" step="1" value="{{ mucHocPhi.heSo }}">
+                      </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Số tiền</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">
+                              <img class="custom-image-size" src="{% static 'images/muchocphi.png' %}" alt="Image">
+                            </span>
+                          </div>
+                        <input type="text" class="form-control" name="soTien" id="currency-field" data-type="currency" value="{{ soTien }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group mt-2">
+                        <label class="fw-bold  ">Học kỳ</label>
+                        <br />
+                        {% if mucHocPhi.hocKy == True %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hocKy" id="hocKy1" value="1" checked>
+                            <label class="form-check-label" for="hocKy1">Học kỳ 1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hocKy" id="hocKy2" value="0">
+                            <label class="form-check-label" for="hocKy2">Học kỳ 2</label>
+                        </div>
+                        {% else %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hocKy" id="hocKy1" value="1">
+                            <label class="form-check-label" for="hocKy1">Học kỳ 1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="hocKy" id="hocKy2" value="0" checked>
+                            <label class="form-check-label" for="hocKy2">Học kỳ 2</label>
+                        </div>
+                        {%  endif %}
+                    </div>
+                    <label class="fw-bold mt-3">
+                        Tính chất
+                      </label>
+                      <div class="form-check mb-3">
+                        <label class="form-check-label" for="isNganhHai">
+                          Ngành 2
+                        </label>
+                        {% if mucHocPhi.isNganhHai == True %}
+                          <input class="form-check-input" name="isNganhHai" type="checkbox" value="1" id="isNganhHai" checked>
+                        {% else %}
+                          <input class="form-check-input" name="isNganhHai" type="checkbox" value="1" id="isNganhHai">
+                        {% endif %}
+                      </div>
+                      <div class="form-check mb-3 mt-3">
+                        <label class="form-check-label" for="isMienGiam">
+                          Miễn giảm
+                        </label>
+                        {% if mucHocPhi.isMienGiam == True %}
+                          <input class="form-check-input" name="isMienGiam" type="checkbox" value="1" id="isMienGiam" checked>
+                        {% else %}
+                          <input class="form-check-input" name="isMienGiam" type="checkbox" value="1" id="isMienGiam">
+                        {% endif %}
+                      </div>
+                      <div class="form-check mb-3 mt-3">
+                        <label class="form-check-label" for="isHocLai">
+                          Học lại, cải thiện
+                        </label>
+                        {% if mucHocPhi.isHocLai == True %}
+                        <input class="form-check-input" name="isHocLai" type="checkbox" value="1" id="isHocLai" checked>
+                        {% else %}
+                        <input class="form-check-input" name="isHocLai" type="checkbox" value="1" id="isHocLai" >
+                        {% endif %}
+                      </div>
+                      <div class="form-check mb-3 mt-3">
+                        <label class="form-check-label" for="isMonGDTC">
+                          Môn GDTC
+                        </label>
+                        {% if mucHocPhi.isMonGDTC == True %}
+                        <input class="form-check-input" name="isMonGDTC" type="checkbox" value="1" id="isMonGDTC" checked>
+                        {% else %}
+                        <input class="form-check-input" name="isMonGDTC" type="checkbox" value="1" id="isMonGDTC">
+                        {% endif %}
+                      </div>
+                      <div class="form-check mb-3 mt-3">
+                        <label class="form-check-label" for="isChatLuongCao">
+                          Chất lượng cao
+                        </label>
+                        {% if mucHocPhi.isChatLuongCao == True %}
+                        <input class="form-check-input" name="isChatLuongCao" type="checkbox" value="1" id="isChatLuongCao" checked>
+                        {% else %}
+                        <input class="form-check-input" name="isChatLuongCao" type="checkbox" value="1" id="isChatLuongCao">
+                        {% endif %}
+                      </div>
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Xác nhận</button>
+            <a class="btn btn-danger mt-3" href="##" onClick="history.go(-1); return false;">Hủy</a>          </form>
+    </div>
+</div>
+<script>
+    $("input[data-type='currency']").on({
+        keyup: function() {
+        formatCurrency($(this));
+        },
+        blur: function() { 
+        formatCurrency($(this), "blur");
+        }
+    });
+
+
+    function formatNumber(n) {
+    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+
+
+    function formatCurrency(input, blur) {
+    var input_val = input.val();
+    if (input_val === "") { return; }
+    var original_len = input_val.length;
+    var caret_pos = input.prop("selectionStart");
+    if (input_val.indexOf(".") >= 0) {
+        var decimal_pos = input_val.indexOf(".");
+        var left_side = input_val.substring(0, decimal_pos);
+        var right_side = input_val.substring(decimal_pos);
+        left_side = formatNumber(left_side);
+        right_side = formatNumber(right_side);
+        if (blur === "blur") {
+        right_side += "00";
+        }
+        right_side = right_side.substring(0, 2);
+        input_val = left_side + "." + right_side;
+    } else {
+        input_val = formatNumber(input_val);
+        input_val = input_val ;
+    }
+    input.val(input_val);
+    var updated_len = input_val.length;
+    caret_pos = updated_len - original_len + caret_pos;
+    input[0].setSelectionRange(caret_pos, caret_pos);
+    }
+
+    function handleComboboxChange1() {
+      var cmbHeDaoTao = document.getElementById('heDaoTao');
+      var cmbNganhDaoTao = document.getElementById('tenNganh');
+      var cmbKhoa = document.getElementById('khoa');
+      var selectedHeDaoTao = cmbHeDaoTao.value;
+      var selectedKhoa = cmbKhoa.value;
+      
+      cmbNganhDaoTao.innerHTML = '';
+      
+      {% for value in cacNganhDaoTao %}
+        if ("{{ value.heDaoTao.tenHeDaoTao }}" == selectedHeDaoTao && "{{ value.khoa.tenKhoa }}" == selectedKhoa) {
+          var newOption = document.createElement('option');
+          newOption.value = "{{ value.tenNganhDaoTao }}";
+          newOption.textContent = "{{ value.tenNganhDaoTao }}";
+          cmbNganhDaoTao.appendChild(newOption);
+        }
+      {% endfor %}
+      var cmbKhoaHoc = document.getElementById('khoaHoc');
+      var cmbNganhDaoTao = document.getElementById('tenNganh');
+      var cmbLop = document.getElementById('lop');
+      var selectedNganhDaoTao = cmbNganhDaoTao.value;
+      
+      cmbLop.innerHTML = '';
+      
+      {% for value in cacLop %}
+        if ("{{ value.nganhDaoTao.tenNganhDaoTao }}" == selectedNganhDaoTao) {
+          var newOption = document.createElement('option');
+          newOption.value = "{{ value.lop }}";
+          newOption.textContent = "{{ value.lop }}";
+          if ("{{ value.lop }}" == "{{ mucHocPhi.lop }}") {
+            newOption.selected = true;
+          }
+          
+          cmbLop.appendChild(newOption);
+        }
+      {% endfor %}
+    }
+    window.onload = handleComboboxChange1()
+  </script>
+  
+{% endblock %}
